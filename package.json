@@ -1,0 +1,15 @@
+{
+  "name": "bikelocks",
+  "version": "1.0.0",
+  "description": "List the bike stations and how many locks and bikes are available at the moment.",
+  "main": "bikelocks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristina Menduinya",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  }
+}
