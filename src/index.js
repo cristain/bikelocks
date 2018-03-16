@@ -1,62 +1,20 @@
 const fetch = require('node-fetch');
-const clientIdentifier = 'your-client-identifier';
-const url = 'https://oslobysykkel.no/api/v1';
+const config = require('config');
 
-/**
- * Returns the options to connect to the API
- *
- * @return {Object} Contains the options to connect to the API
-*/
-function getOptions () {
-    return {
-        method: 'GET',
-        headers: {
-            'Client-Identifier': clientIdentifier
-        }
-    };
-}
+const BikeService = require('./bike-service');
 
-/**
- * Returns the list of the stations with their available bikes and locks.
- *
- * @return {Object} result Json object containing the name of the stations,
- *      and the available bikes and available locks for each one
-*/
+const apiKey = config.get('clientIdentifier');
 
-async function getStations() {
-    try{
-        var stations = await fetch(
-            (url + '/stations'),
-            getOptions()
-        );
-        var jsonStations = await stations.json();
+const bikes = new BikeService(apiKey, fetch);
 
-    } catch (e) {
-        console.dir('Error getting the stations');
-    }
+// Controller
+bikes.getStationAvailability()
+    .then(printResults)
+    .catch(err => console.error(err));
 
-    try {
-        var availability = await fetch(
-            (url + '/stations/availability'),
-            getOptions()
-        );
-        var jsonAvailability = await availability.json();
-
-    } catch (e){
-        console.dir('Error getting the availability');
-    }
-
-    var result = jsonStations.stations.map(
-        a => Object.assign(
-            a, jsonAvailability.stations.find(
-                b => b.id == a.id)
-            )
-        );
-
-    printResult(result);
-
-    return result;
-}
+// /////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Outputs the title, available bikes and available locks from the
@@ -64,12 +22,12 @@ async function getStations() {
  *
  * @param {json} result
  */
-function printResult(result) {
-    for(var i=0; i<result.length; i++){
-        console.log('\nSTATION: ' + result[i].title);
-        console.log('BIKES: ' + result[i].availability.bikes);
-        console.log('LOCKS: ' + result[i].availability.locks);
-    }
+function printResults(results) {
+    results.forEach(result => {
+        console.log('\n');
+        console.log('STATION: ' + result.title);
+        console.log('BIKES: ' + result.availability.bikes);
+        console.log('LOCKS: ' + result.availability.locks);
+        console.log('\n');
+    });
 }
-
-getStations();

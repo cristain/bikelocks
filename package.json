@@ -4,9 +4,13 @@
   "description": "List the bike stations and how many locks and bikes are available at the moment.",
   "main": "bikelocks.js",
   "author": "Cristina Menduinya",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "browserify": "^16.1.1",
+    "config": "^1.30.0",
     "node-fetch": "^2.1.1"
+  },
+  "scripts": {
+    "start": "node src/index.js"
   }
 }
