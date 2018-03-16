@@ -5,28 +5,35 @@ List the bike stations and how many locks and bikes are available at the moment 
 
 ## Prerequisites
 
-You need to have installed node.
+You need to have installed `node` and `yarn`.
+
+### install dependencies
+`yarn install`
 
 ## Configuration
-
-Go to src/index.js and add your key:
-
-```javascript
-const clientIdentifier = 'your-client-identifier';
-```
 
 Copy the config/default.json to local.json and add your client identifier from
 https://developer.oslobysykkel.no.
 
-## How see the list
-
+## How see the bike availability
+### Server
 Go to your console and run the commands:
 
 ```bash
-# install dependencies
-yarn install
-# run the code
+# run the node.js version
 yarn start
 ```
 
-The application will print the list of stations and how many locks and bikes are available.
+The node.js application will start a proxy server to call the bike API.
+
+### Browser
+
+```
+# build the browser version
+yarn build
+
+# start the server on localhost:3000
+yarn server
+```
+
+Will render the results in a unordered list.

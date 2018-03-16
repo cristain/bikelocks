@@ -10,7 +10,7 @@ class BikeService {
      */
     constructor(apiKey, fetch) {
         // For both node and browser.
-        this.fetch = fetch || window.fetch;
+        this.fetch = fetch || window.fetch.bind(window);
         this.GETOptions = createGETOptions(apiKey);
     }
 
@@ -42,14 +42,16 @@ module.exports = BikeService;
 // /////////////////////////////////////////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////////////////////////
 
-const toMergedStations = availabilities => station => {
+const toNamedStations = availabilities => station => {
     const availability = availabilities.find(availablity => availablity.id === station.id);
 
-    return Object.assign({}, station, availability);
+    availability.stationName = station.title;
+
+    return availability;
 };
 
 function mergeResults(stations, availabilities) {
-    const results = stations.map(toMergedStations(availabilities));
+    const results = stations.map(toNamedStations(availabilities));
 
     return results;
 }
