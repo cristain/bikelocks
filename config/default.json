@@ -1,0 +1,6 @@
+{
+    "clientIdentifier": "copy to local and add yours",
+    "server": {
+        "port": 8080
+    }
+}
